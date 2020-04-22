@@ -85,7 +85,7 @@ const createEmployee = () => {
         transparent={true}
         animationType="slide"
         onRequestClose={() => {
-          setModel(true);
+          setModel(false);
         }}
       >
         <View style={styles.modalView}>

@@ -74,48 +74,6 @@ const home = () => {
       name: "Naveen",
       position: "Backend developer",
     },
-    {
-      id: 11,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 12,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 13,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 14,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 15,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 16,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
   ];
 
   const renderDetails = (item) => {
@@ -128,7 +86,7 @@ const home = () => {
               uri: item.photo,
             }}
           />
-          <View>
+          <View style={{ marginLeft: 15 }}>
             <Text>{item.name}</Text>
             <Text>{item.position}</Text>
           </View>
@@ -158,9 +116,9 @@ const home = () => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 5,
+    margin: 10,
     padding: 5,
-    backgroundColor: "#6285ff",
+    backgroundColor: "#07f7f7",
   },
   cardView: {
     flexDirection: "row",
