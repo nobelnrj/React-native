@@ -5,15 +5,28 @@ import Home from "./screens/home";
 import CreateEmployee from "./screens/createEmployee";
 import Profile from "./screens/profile";
 
-export default function App() {
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      {/* <Home /> */}
-      <CreateEmployee />
-      {/* <Profile /> */}
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Create" component={CreateEmployee} />
+      <Stack.Screen name="Profile" component={Profile} />
+    </Stack.Navigator>
   );
 }
+
+export default () => {
+  return (
+    <NavigationContainer>
+      <App />
+    </NavigationContainer>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

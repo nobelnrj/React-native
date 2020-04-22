@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { Card, FAB } from "react-native-paper";
 
-const home = () => {
+const home = ({ navigation }) => {
   const data = [
     {
       id: 1,
@@ -10,6 +10,9 @@ const home = () => {
         "https://images.unsplash.com/photo-1569466896818-335b1bedfcce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
       name: "Nobel",
       position: "Web developer",
+      phone: 7395858598,
+      email: "nobelreojacob@gmail.com",
+      salary: "10 LPA",
     },
     {
       id: 2,
@@ -17,6 +20,9 @@ const home = () => {
         "https://images.unsplash.com/photo-1569466896818-335b1bedfcce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
       name: "Shibu",
       position: "Senior Web developer",
+      phone: 7395534541,
+      email: "shibulijack@gmail.com",
+      salary: "30 LPA",
     },
     {
       id: 3,
@@ -24,6 +30,9 @@ const home = () => {
         "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
       name: "Randip",
       position: "Full stack developer",
+      phone: 9487761677,
+      email: "randip007leon@gmail.com",
+      salary: "40 LPA",
     },
     {
       id: 4,
@@ -31,54 +40,18 @@ const home = () => {
         "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
       name: "Naveen",
       position: "Backend developer",
-    },
-    {
-      id: 5,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 6,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 7,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 8,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 9,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-    },
-    {
-      id: 10,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
+      phone: 7345343543,
+      email: "naveenanto@gmail.com",
+      salary: "30 LPA",
     },
   ];
 
   const renderDetails = (item) => {
     return (
-      <Card style={styles.card}>
+      <Card
+        style={styles.card}
+        onPress={() => navigation.navigate("Profile", { item })}
+      >
         <View style={styles.cardView}>
           <Image
             style={styles.img}
@@ -95,7 +68,7 @@ const home = () => {
     );
   };
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <FlatList
         data={data}
         renderItem={({ item }) => {
@@ -108,7 +81,7 @@ const home = () => {
         small={false}
         theme={{ colors: { accent: "#f01b0c" } }}
         icon="plus"
-        onPress={() => console.log("Pressed")}
+        onPress={() => navigation.navigate("Create")}
       />
     </View>
   );

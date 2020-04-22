@@ -4,12 +4,23 @@ import { Title, Card, Button } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const Profile = () => {
+const Profile = (props) => {
   const openPhone = () => {
     Platform.OS = "android"
       ? Linking.openURL("tel:7395858598")
       : Linking.openURL("telprompt:7395858598");
   };
+
+  const {
+    id,
+    photo,
+    name,
+    position,
+    phone,
+    email,
+    salary,
+  } = props.route.params.item;
+
   return (
     <View>
       <LinearGradient
@@ -22,20 +33,19 @@ const Profile = () => {
         <Image
           style={{ width: 140, height: 140, borderRadius: 70 }}
           source={{
-            uri:
-              "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
+            uri: phot,
           }}
         />
       </View>
       <View style={{ alignItems: "center", marginTop: 7, marginBottom: 10 }}>
-        <Title>Nobel Reo Jacob</Title>
-        <Text>Web Developer</Text>
+        <Title>{name}</Title>
+        <Text>{position}</Text>
       </View>
       <Card style={styles.myCard} theme={theme} onPress={() => openPhone()}>
         <View style={styles.cardContent}>
           <MaterialIcons name="call" size={32} color="#fff" />
           <Text style={{ fontSize: 20, marginLeft: 15, color: "#fff" }}>
-            7395858598
+            {phone}
           </Text>
         </View>
       </Card>
@@ -49,7 +59,7 @@ const Profile = () => {
         <View style={styles.cardContent}>
           <MaterialIcons name="mail" size={32} color="#fff" />
           <Text style={{ fontSize: 20, marginLeft: 15, color: "#fff" }}>
-            nobelreojacob@gmail.com
+            {email}
           </Text>
         </View>
       </Card>
@@ -57,7 +67,7 @@ const Profile = () => {
         <View style={styles.cardContent}>
           <MaterialIcons name="attach-money" size={32} color="#fff" />
           <Text style={{ fontSize: 20, marginLeft: 15, color: "#fff" }}>
-            10 LPA
+            {salary}
           </Text>
         </View>
       </Card>
