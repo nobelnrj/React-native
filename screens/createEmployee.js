@@ -5,13 +5,80 @@ import { TextInput, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
-const createEmployee = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [salary, setSalary] = useState("");
-  const [picture, setPicture] = useState("");
+const createEmployee = ({ navigation, route }) => {
+  const getData = (type) => {
+    if (route.params) {
+      switch (type) {
+        case "name":
+          return route.params.name;
+        case "phone":
+          return route.params.phone;
+        case "email":
+          return route.params.email;
+        case "salary":
+          return route.params.salary;
+        case "photo":
+          return route.params.photo;
+        case "position":
+          return route.params.position;
+      }
+    }
+    return "";
+  };
+
+  const [name, setName] = useState(getData("name"));
+  const [phone, setPhone] = useState(getData("phone"));
+  const [email, setEmail] = useState(getData("email"));
+  const [salary, setSalary] = useState(getData("salary"));
+  const [photo, setPhoto] = useState(getData("photo"));
+  const [position, setPosition] = useState(getData("position"));
   const [modal, setModel] = useState(false);
+
+  const submitData = () => {
+    fetch("http://20e2ba4c.ngrok.io/send-data", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        phone,
+        email,
+        salary,
+        photo,
+        position,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+    Alert.alert(`added successfully`);
+    navigation.navigate("Home");
+  };
+
+  const updateData = () => {
+    fetch("http://20e2ba4c.ngrok.io/update", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: route.params._id,
+        name,
+        phone,
+        email,
+        salary,
+        photo,
+        position,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Alert.alert(`updated successfully`);
+        navigation.navigate("Home");
+      });
+  };
 
   useEffect(() => {
     getPermissionAsync = async () => {
@@ -76,7 +143,8 @@ const createEmployee = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setPicture(data);
+        setPhoto(data.url);
+        console.log(data);
         setModel("false");
       });
   };
@@ -86,7 +154,7 @@ const createEmployee = () => {
       <TextInput
         label="Name"
         value={name}
-        placeholder="Enter your name...."
+        placeholder="Enter employee name...."
         mode="outlined"
         theme={theme}
         style={styles.textInput}
@@ -95,9 +163,20 @@ const createEmployee = () => {
         }}
       />
       <TextInput
+        label="Position"
+        value={position}
+        placeholder="Enter employee position...."
+        mode="outlined"
+        theme={theme}
+        style={styles.textInput}
+        onChangeText={(text) => {
+          setPosition(text);
+        }}
+      />
+      <TextInput
         label="Phone"
         value={phone}
-        placeholder="Enter your phone no...."
+        placeholder="Enter employee phone no...."
         mode="outlined"
         keyboardType="number-pad"
         theme={theme}
@@ -109,7 +188,7 @@ const createEmployee = () => {
       <TextInput
         label="Email"
         value={email}
-        placeholder="Enter your mail id...."
+        placeholder="Enter employee mail id...."
         mode="outlined"
         keyboardType="email-address"
         theme={theme}
@@ -121,7 +200,7 @@ const createEmployee = () => {
       <TextInput
         label="Salary"
         value={salary}
-        placeholder="Enter your salary...."
+        placeholder="Enter employee salary...."
         mode="outlined"
         keyboardType="numeric"
         theme={theme}
@@ -131,7 +210,7 @@ const createEmployee = () => {
         }}
       />
       <Button
-        icon={picture == "" ? "upload" : "check"}
+        icon={photo == "" ? "upload" : "check"}
         theme={theme}
         dark={false}
         style={styles.buttonView}
@@ -139,18 +218,32 @@ const createEmployee = () => {
         compact={true}
         onPress={() => setModel(true)}
       >
-        {picture == "" ? "upload" : "uploaded"}
+        {photo == "" ? "upload" : "uploaded"}
       </Button>
-      <Button
-        icon="content-save"
-        theme={theme}
-        dark={false}
-        style={styles.buttonView}
-        mode="contained"
-        onPress={() => setModel(true)}
-      >
-        SAVE
-      </Button>
+      {route.params ? (
+        <Button
+          icon="content-save"
+          theme={theme}
+          dark={false}
+          style={styles.buttonView}
+          mode="contained"
+          onPress={() => updateData()}
+        >
+          UPDATE
+        </Button>
+      ) : (
+        <Button
+          icon="content-save"
+          theme={theme}
+          dark={false}
+          style={styles.buttonView}
+          mode="contained"
+          onPress={() => submitData()}
+        >
+          SAVE
+        </Button>
+      )}
+
       <Modal
         visible={modal}
         transparent={true}

@@ -1,50 +1,30 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { Card, FAB } from "react-native-paper";
 
 const home = ({ navigation }) => {
-  const data = [
-    {
-      id: 1,
-      photo:
-        "https://images.unsplash.com/photo-1569466896818-335b1bedfcce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
-      name: "Nobel",
-      position: "Web developer",
-      phone: 7395858598,
-      email: "nobelreojacob@gmail.com",
-      salary: "10 LPA",
-    },
-    {
-      id: 2,
-      photo:
-        "https://images.unsplash.com/photo-1569466896818-335b1bedfcce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
-      name: "Shibu",
-      position: "Senior Web developer",
-      phone: 7395534541,
-      email: "shibulijack@gmail.com",
-      salary: "30 LPA",
-    },
-    {
-      id: 3,
-      photo:
-        "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
-      name: "Randip",
-      position: "Full stack developer",
-      phone: 9487761677,
-      email: "randip007leon@gmail.com",
-      salary: "40 LPA",
-    },
-    {
-      id: 4,
-      photo:
-        "https://images.unsplash.com/flagged/photo-1578848151039-b8916d7c1c34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=821&q=80",
-      name: "Naveen",
-      position: "Backend developer",
-      phone: 7345343543,
-      email: "naveenanto@gmail.com",
-      salary: "30 LPA",
-    },
-  ];
+  const [data, setData] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = () => {
+    fetch("http://20e2ba4c.ngrok.io/")
+      .then((res) => res.json())
+      .then((result) => {
+        setData(result);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const renderDetails = (item) => {
     return (
@@ -69,13 +49,19 @@ const home = ({ navigation }) => {
   };
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => {
-          return renderDetails(item);
-        }}
-        keyExtractor={(item) => `${item.id}`}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="" />
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={({ item }) => {
+            return renderDetails(item);
+          }}
+          keyExtractor={(item) => `${item._id}`}
+          refreshing={loading}
+          onRefresh={() => fetchData()}
+        />
+      )}
       <FAB
         style={styles.fab}
         small={false}

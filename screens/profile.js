@@ -1,18 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Linking, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Linking,
+  Platform,
+  Alert,
+} from "react-native";
 import { Title, Card, Button } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const Profile = (props) => {
-  const openPhone = () => {
-    Platform.OS = "android"
-      ? Linking.openURL("tel:7395858598")
-      : Linking.openURL("telprompt:7395858598");
-  };
-
   const {
-    id,
+    _id,
     photo,
     name,
     position,
@@ -20,6 +22,29 @@ const Profile = (props) => {
     email,
     salary,
   } = props.route.params.item;
+
+  const deleteEmployee = () => {
+    fetch("http://20e2ba4c.ngrok.io/delete", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((deletedEmp) => {
+        Alert.alert(`${deletedEmp.name} deleted successfully`);
+        props.navigation.navigate("Home");
+      });
+  };
+
+  const openPhone = () => {
+    Platform.OS = "android"
+      ? Linking.openURL(`tel:${phone}`)
+      : Linking.openURL(`telprompt:${phone}`);
+  };
 
   return (
     <View>
@@ -83,7 +108,17 @@ const Profile = (props) => {
           theme={theme}
           dark={false}
           mode="contained"
-          onPress={() => console.log("pressed")}
+          onPress={() => {
+            props.navigation.navigate("Create", {
+              _id,
+              photo,
+              name,
+              position,
+              phone,
+              email,
+              salary,
+            });
+          }}
         >
           EDIT
         </Button>
@@ -92,7 +127,7 @@ const Profile = (props) => {
           theme={theme}
           dark={false}
           mode="contained"
-          onPress={() => console.log("pressed")}
+          onPress={() => deleteEmployee()}
         >
           DELETE
         </Button>

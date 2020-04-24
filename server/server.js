@@ -10,17 +10,21 @@ const Employee = mongoose.model("employee");
 const mongoUri =
   "mongodb+srv://nobel:nobel200398@cluster0-aypx6.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 mongoose.connection.on("connected", () => {
   console.log("connected!!!!!");
 });
 
 mongoose.connection.on("error", () => {
-  console.log("error", error);
+  console.log("error!!!!");
 });
 
 server.get("/", (req, res) => {
@@ -42,7 +46,6 @@ server.post("/send-data", (req, res) => {
     .save()
     .then((data) => {
       console.log(data);
-      res.send("success");
     })
     .catch((err) => {
       console.log(err);
