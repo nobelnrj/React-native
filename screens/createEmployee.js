@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Modal } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Modal, Alert } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 const createEmployee = () => {
   const [name, setName] = useState("");
@@ -9,6 +12,74 @@ const createEmployee = () => {
   const [salary, setSalary] = useState("");
   const [picture, setPicture] = useState("");
   const [modal, setModel] = useState(false);
+
+  useEffect(() => {
+    getPermissionAsync = async () => {
+      const { galleryStatus } = await Permissions.askAsync(
+        Permissions.CAMERA_ROLL
+      );
+    };
+    getPermissionAsync();
+  });
+
+  pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        let newfile = {
+          uri: result.uri,
+          type: `test/${result.uri.split(".")[1]}`,
+          name: `test.${result.uri.split(".")[1]}`,
+        };
+        handleUpload(newfile);
+      }
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
+  makeImage = async () => {
+    try {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        let newfile = {
+          uri: result.uri,
+          type: `test/${result.uri.split(".")[1]}`,
+          name: `test.${result.uri.split(".")[1]}`,
+        };
+        handleUpload(newfile);
+      }
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
+  const handleUpload = (image) => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "employeeApp");
+    data.append("cloud_name", "nobelnrj");
+
+    fetch("https://api.cloudinary.com/v1_1/nobelnrj/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPicture(data);
+        setModel("false");
+      });
+  };
 
   return (
     <View>
@@ -60,7 +131,7 @@ const createEmployee = () => {
         }}
       />
       <Button
-        icon="upload"
+        icon={picture == "" ? "upload" : "check"}
         theme={theme}
         dark={false}
         style={styles.buttonView}
@@ -68,7 +139,7 @@ const createEmployee = () => {
         compact={true}
         onPress={() => setModel(true)}
       >
-        UPLOAD
+        {picture == "" ? "upload" : "uploaded"}
       </Button>
       <Button
         icon="content-save"
@@ -95,7 +166,7 @@ const createEmployee = () => {
               theme={theme}
               dark={false}
               mode="contained"
-              onPress={() => console.log("pressed")}
+              onPress={() => makeImage()}
             >
               CAMERA
             </Button>
@@ -104,7 +175,7 @@ const createEmployee = () => {
               theme={theme}
               dark={false}
               mode="contained"
-              onPress={() => console.log("pressed")}
+              onPress={() => pickImage()}
             >
               GALLERY
             </Button>

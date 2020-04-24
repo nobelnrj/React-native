@@ -33,7 +33,7 @@ const Profile = (props) => {
         <Image
           style={{ width: 140, height: 140, borderRadius: 70 }}
           source={{
-            uri: phot,
+            uri: photo,
           }}
         />
       </View>
