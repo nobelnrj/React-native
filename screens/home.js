@@ -14,7 +14,7 @@ const home = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchData = () => {
-    fetch("http://e394830a.ngrok.io/")
+    fetch("https://nrj-employee-app.herokuapp.com/")
       .then((res) => res.json())
       .then((result) => {
         setData(result);

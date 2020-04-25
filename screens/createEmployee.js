@@ -35,7 +35,7 @@ const createEmployee = ({ navigation, route }) => {
   const [modal, setModel] = useState(false);
 
   const submitData = () => {
-    fetch("http://e394830a.ngrok.io/send-data", {
+    fetch("https://nrj-employee-app.herokuapp.com/send-data", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const createEmployee = ({ navigation, route }) => {
   };
 
   const updateData = () => {
-    fetch("http://e394830a.ngrok.io/update", {
+    fetch("https://nrj-employee-app.herokuapp.com/update", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
