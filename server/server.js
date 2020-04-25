@@ -2,9 +2,13 @@ const express = require("express");
 const server = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const compression = require("compression");
+const helmet = require("helmet");
 require("./employee");
 
 server.use(bodyParser.json());
+server.use(compression());
+server.use(helmet());
 
 const Employee = mongoose.model("employee");
 const mongoUri =

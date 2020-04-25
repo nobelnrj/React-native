@@ -35,7 +35,7 @@ const createEmployee = ({ navigation, route }) => {
   const [modal, setModel] = useState(false);
 
   const submitData = () => {
-    fetch("http://20e2ba4c.ngrok.io/send-data", {
+    fetch("http://e394830a.ngrok.io/send-data", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const createEmployee = ({ navigation, route }) => {
   };
 
   const updateData = () => {
-    fetch("http://20e2ba4c.ngrok.io/update", {
+    fetch("http://e394830a.ngrok.io/update", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
